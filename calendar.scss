@@ -1,2 +1,66 @@
 .calendar {
+  .background-icon {
+    position: absolute;
+    top: 0;
+    text-align: center;
+    width: 100%;
+    font-size: 1000%;
+    color: rgba(255, 255, 255, .05);
+  }
+
+  ul {
+    padding: 0 1vw;
+  }
+
+  li {
+    list-style: none;
+    font-size: 1.1vw;
+    margin-bottom: 2.5vw;
+
+    &:nth-child(2) {
+      color: rgba(255, 255, 255, .8);
+    }
+
+    &:nth-child(3) {
+      color: rgba(255, 255, 255, .6);
+    }
+
+    &:nth-child(4) {
+      color: rgba(255, 255, 255, .4);
+    }
+
+    .title {
+      font-size: 2vw;
+      text-align: left;
+    }
+
+    .date-and-time-container {
+      width: 100%;
+
+      .date {
+        float: left;
+      }
+
+      .time {
+        float: right;
+
+        .start-at,
+        .label,
+        .delimiter,
+        .end-at {
+          display: inline-block;
+          vertical-align: baseline;
+        }
+
+        .delimiter {
+          margin: 0 .5vw;
+        }
+
+        .label {
+          opacity: .5;
+          margin-left: 0.25vw;
+        }
+      }
+    }
+  }
 }

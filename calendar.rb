@@ -9,6 +9,7 @@ class Calendar
     @user = ''
     @password = ''
     @max_events = 0
+    @date_time_format = ''
   end
 
   def start_with_configuration(config)
@@ -16,10 +17,12 @@ class Calendar
     @user = config['user']
     @password = config['password']
     @max_events = config['upcoming_events']
+    @time_format = config['time_format']
+    @date_format = config['date_format']
 
     $widget_scheduler.every '1m', first_in: '3s' do
       events = find_upcoming_events
-      WidgetDatum.new(name: 'calendar', data: events).save
+      WidgetDatum.new(name: 'calendar', data: { upcoming_events: events }).save
     end unless @cli_mode
     ap find_upcoming_events if @cli_mode
   end
@@ -47,8 +50,10 @@ class Calendar
       end_at = DateTime.parse(parsed_event.dtend.to_s)
       if end_at > DateTime.now
         relevant_events << {
-          start_at: start_at,
-          end_at: end_at,
+          start_time: create_time(start_at),
+          start_date: start_at.strftime(@date_format),
+          end_time: create_time(end_at),
+          end_date: end_at.strftime(@date_format),
           name: parsed_event.summary
         }
       end
@@ -57,6 +62,11 @@ class Calendar
     sorted_events = relevant_events.sort_by { |k| k[:end_at] }
     return sorted_events[0..(@max_events - 1)] if sorted_events.count > @max_events
     return sorted_events
+  end
+
+  def create_time(time)
+    return nil if time.strftime('%H%M') == '0000'
+    time.strftime(@time_format)
   end
 
   def cli_mode
@@ -77,6 +87,8 @@ if __FILE__ == $0
   $config['calendar']['user'] = 'testuser'
   $config['calendar']['password'] = ARGV[0]
   $config['calendar']['upcoming_events'] = 5
+  $config['calendar']['time_format'] = '%H:%M'
+  $config['calendar']['date_format'] = '%d.%m'
 end
 
 calendar.start_with_configuration $config['calendar']

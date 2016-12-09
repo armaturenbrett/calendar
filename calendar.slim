@@ -1,2 +1,30 @@
 .calendar data-preload="#{WidgetDatum.find('calendar').data.to_json}"
-  
+
+  .background-icon
+    = fa_icon('calendar')
+
+  ul.event-list
+    | {{#upcoming_events}}
+    li.event-item
+      .title
+        | {{name}}
+      .date-and-time-container
+        .date
+          | {{date}}
+
+        | {{#start_time}}
+        .time
+          .start-at
+            | {{start_time}}
+            .label
+              = t('calendar.o-clock')
+
+          .delimiter
+            == ' &mdash; '
+
+          .end-at
+            | {{end_time}}
+            .label
+              = t('calendar.o-clock')
+        | {{/start_time}}
+    | {{/upcoming_events}}
