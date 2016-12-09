@@ -45,13 +45,16 @@ class Calendar
     relevant_events = []
     raw_events.each do |event|
       parsed_event = Icalendar::Event.parse(event)[0]
+      next unless parsed_event
 
       start_at = DateTime.parse(parsed_event.dtstart.to_s)
       end_at = DateTime.parse(parsed_event.dtend.to_s)
       if end_at > DateTime.now
         relevant_events << {
+          start_at: start_at,
           start_time: create_time(start_at),
           start_date: start_at.strftime(@date_format),
+          end_at: end_at,
           end_time: create_time(end_at),
           end_date: end_at.strftime(@date_format),
           name: parsed_event.summary
@@ -82,9 +85,9 @@ if __FILE__ == $0
   $config = {}
   $config['calendar'] = {}
   $config['calendar']['uris'] = [
-    'https://cloud.robert-greinacher.de/remote.php/dav/calendars/testuser/default/'
+    'https://nextcloud.domain-name.de/remote.php/dav/calendars/username/default/',
   ]
-  $config['calendar']['user'] = 'testuser'
+  $config['calendar']['user'] = 'calendarWidgetUser'
   $config['calendar']['password'] = ARGV[0]
   $config['calendar']['upcoming_events'] = 5
   $config['calendar']['time_format'] = '%H:%M'

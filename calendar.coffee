@@ -39,7 +39,6 @@ class CalendarWidget
         datum.date = datum.start_date
       else
         datum.date = "#{datum.start_date} - #{datum.end_date}"
-    console.log datum
     transformedData
 
 $(document).ready ->
