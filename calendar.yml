@@ -2,6 +2,8 @@ calendar:
   user: 'johndoe' # user name to auth at the CalDAV server
   password: '123savePasswd' # password to auth at the CalDAV server
   upcoming_events: 3 # number of upcoming events the widget displays
+  time_format: '%H:%M'
+  date_format: '%d.%m.'
   uris:
     - 'https://nextcloud.domain-name.de/remote.php/dav/calendars/username/default/' # direkt URI to the CalDav calendar
     - 'https://nextcloud.domain-name.de/remote.php/dav/calendars/username/anOtherCalendar/'
