@@ -33,7 +33,8 @@ class Calendar
       curl_request = `curl -X PROPFIND -u #{@user}:#{@password} -H "Content-Type: text/xml" -H "Depth: 1" --data "<propfind xmlns='DAV:'><prop><calendar-data xmlns='urn:ietf:params:xml:ns:caldav'/></prop></propfind>" #{uri}`
 
       xml_document = Nokogiri::XML(curl_request)
-      events_of_one_calendar = xml_document.xpath('//cal:calendar-data').map { |event| event.content }
+      xml_document.remove_namespaces!
+      events_of_one_calendar = xml_document.xpath('//calendar-data').map { |event| event.content }
       events_of_one_calendar = events_of_one_calendar.reject { |element| element.empty? }
       events_of_all_calendars += events_of_one_calendar
     end
@@ -80,14 +81,14 @@ end
 calendar = Calendar.new
 
 if __FILE__ == $0
-  exit unless ARGV.count == 1
+  # exit unless ARGV.count == 1
   calendar.cli_mode
   $config = {}
   $config['calendar'] = {}
   $config['calendar']['uris'] = [
-    'https://nextcloud.domain-name.de/remote.php/dav/calendars/username/default/',
+    'https://www.google.com/calendar/dav/email@address.com/events',
   ]
-  $config['calendar']['user'] = 'calendarWidgetUser'
+  $config['calendar']['user'] = 'username@address.com'
   $config['calendar']['password'] = ARGV[0]
   $config['calendar']['upcoming_events'] = 5
   $config['calendar']['time_format'] = '%H:%M'
