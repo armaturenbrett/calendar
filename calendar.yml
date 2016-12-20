@@ -5,5 +5,8 @@ calendar:
   time_format: '%H:%M'
   date_format: '%d.%m.'
   uris:
-    - 'https://nextcloud.domain-name.de/remote.php/dav/calendars/username/default/' # direkt URI to the CalDav calendar
-    - 'https://nextcloud.domain-name.de/remote.php/dav/calendars/username/anOtherCalendar/'
+    ical:
+      - 'https://calendar.google.com/calendar/ical/CALENDAR_ID/basic.ics' # direkt URI to the iCal resource
+    caldav:
+      - 'https://nextcloud.domain-name.de/remote.php/dav/calendars/username/default/' # direkt URI to the CalDav calendar
+      - 'https://nextcloud.domain-name.de/remote.php/dav/calendars/username/anOtherCalendar/'
