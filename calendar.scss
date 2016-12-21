@@ -1,7 +1,7 @@
 .calendar {
   .background-icon {
     color: rgba(255, 255, 255, .05);
-    font-size: 770%;
+    font-size: 700%;
     position: absolute;
     text-align: center;
     top: 0;
@@ -9,6 +9,7 @@
   }
 
   ul {
+    margin-top: 8px;
     padding: 0 1vw;
   }
 
