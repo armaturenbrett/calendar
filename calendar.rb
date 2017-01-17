@@ -56,17 +56,26 @@ class Calendar
 
       parsed_events.each do |parsed_event|
         start_at = DateTime.parse(parsed_event.dtstart.to_s)
-        end_at = DateTime.parse(parsed_event.dtend.to_s)
-        if end_at > DateTime.now
-          relevant_events << {
-            start_at: start_at,
-            start_time: create_time(start_at),
-            start_date: start_at.strftime(@date_format),
-            end_at: end_at,
-            end_time: create_time(end_at),
-            end_date: end_at.strftime(@date_format),
-            name: parsed_event.summary
-          }
+        new_event = {
+          name: parsed_event.summary,
+          start_at: start_at,
+          start_time: create_time(start_at),
+          start_date: start_at.strftime(@date_format)
+        }
+
+        if parsed_event.dtend
+          end_at = DateTime.parse(parsed_event.dtend.to_s)
+        else parsed_event.duration.hours
+          end_at = start_at + (parsed_event.duration.hours / 24.0)
+        end
+
+        if end_at && end_at > DateTime.now
+          new_event[:end_at] = end_at
+          new_event[:end_time] = create_time(end_at)
+          new_event[:end_date] = end_at.strftime(@date_format)
+          relevant_events << new_event
+        elsif start_at > DateTime.now
+          relevant_events << new_event
         end
       end
     end
